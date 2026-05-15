@@ -115,64 +115,6 @@ Power Query Editor
 
 ---
 
-## 🧮 Analysis Engine (Formulas)
-
-All metrics were calculated in a dedicated **Analysis sheet** using advanced Excel formulas:
-
-### Monthly Metrics
-```excel
--- Total Revenue per Month
-=SUMIFS(Sales_Master[Net_Revenue_INR], Sales_Master[Month], A3)
-
--- Gross Margin % per Month
-=SUMIFS(Sales_Master[Gross_Profit], Sales_Master[Month], A3) / 
- SUMIFS(Sales_Master[Revenue_INR], Sales_Master[Month], A3)
-```
-
-### Running Total (Cumulative Revenue)
-```excel
-=SUMIFS(Sales_Master[Net_Revenue_INR], Sales_Master[Month], "<="&J3)
-```
-
-### Month-over-Month Growth
-```excel
-=(E4-E3)/E3
-```
-
-### 3-Month Moving Average
-```excel
-=AVERAGE(E3:E5)  -- shifts with each month row
-```
-
-### Top 5 Products (Dynamic Ranking)
-```excel
--- Get Nth highest revenue value
-=LARGE($C$43:$C$72, A19)
-
--- Match product name to that value
-=INDEX($B$43:$B$72, MATCH(C19, $C$43:$C$72, 0))
-```
-
-### Budget vs Actual Variance
-```excel
--- Variance INR
-=Actual_Revenue - Budgeted_Revenue
-
--- Variance %
-=(Actual - Budget) / Budget
-
--- Status Flag
-=IF(Variance > 0, "✅ Over", "❌ Under")
-```
-
-### Return Rate by Category
-```excel
-=SUMIFS(Sales_Master[Units_Returned_Clean], Sales_Master[Category], G19) /
- SUMIFS(Sales_Master[Units_Sold], Sales_Master[Category], G19)
-```
-
----
-
 ## 📊 Dashboard Walkthrough
 
 The executive dashboard is built on a **dark navy theme (#1F2D40)** with gold (#F5A623) and blue (#2E86AB) accents, designed for clarity and visual impact.
@@ -193,97 +135,36 @@ Six headline metrics giving an instant business snapshot:
 
 ### 📈 Chart 1 — Monthly Net Revenue Trend + 3M Moving Average
 **Type:** Line Chart with Moving Average Trendline
-
-**What it shows:**
-- Month-by-month Net Revenue fluctuation across FY2024
-- 3-Month Moving Average overlay smoothing out seasonal noise
-- Clear visualization of the Diwali peak in October–November
-
-**Key Insight:**
-> Revenue dips significantly in July–August (monsoon slowdown) before recovering sharply in September and peaking in November at ₹6,98,528 — a **41% MoM jump from September to October** driven by festive season demand.
+- Tracks month-by-month revenue performance across FY2024 with a smoothed moving average overlay to highlight the underlying trend beneath seasonal noise.
 
 ---
 
 ### 🍩 Chart 2 — Revenue by Category (Donut Chart)
 **Type:** Donut Chart
-
-**What it shows:**
-- Revenue share of each of the 6 product categories
-- Topwear dominates at 25% of total revenue
-- Summer Collection has the smallest share at 5%
-
-**Key Insight:**
-> Topwear and Accessories together account for **36% of total revenue** despite Accessories having the highest gross margin (60.92%) — indicating an opportunity to push Accessories sales further.
+- Shows each category's share of total revenue, making it instantly clear which categories dominate the portfolio and which are underrepresented.
 
 ---
 
 ### 🏆 Chart 3 — Top 5 Products by Revenue (Bar Chart)
 **Type:** Horizontal Clustered Bar Chart
-
-**What it shows:**
-- The 5 highest revenue-generating products
-- Ranked from highest to lowest
-- Data labels showing exact revenue values
-
-| Rank | Product | Revenue |
-|------|---------|---------|
-| 1 | Wrist Watch | ₹8,12,925 |
-| 2 | Ethnic Sherwani | ₹5,66,280 |
-| 3 | Formal Blazer | ₹3,78,048 |
-| 4 | Quilted Jacket | ₹3,59,415 |
-| 5 | Running Sneakers | ₹3,20,364 |
-
-**Key Insight:**
-> Wrist Watch alone contributes **14.98% of total revenue** — making it the single most important product in the portfolio. Its high COGS-to-price ratio also makes it one of the highest margin products.
-
+- Ranks the five highest-earning products by net revenue, helping identify which SKUs are carrying the business.
 ---
 
 ### 📉 Chart 4 — Budget vs Actual Revenue by Month
 **Type:** Clustered Column Chart
-
-**What it shows:**
-- Side-by-side comparison of Actual vs Budgeted revenue for each month
-- Gold bars = Budget Target, Blue bars = Actual Revenue
-- Clear visual of budget variance month by month
-
-**Key Insight:**
-> The business came in **under budget every single month** in FY2024 — suggesting budget targets were set too aggressively or actual demand was softer than forecast. November had the largest absolute gap (₹1,15,172 under budget) despite being the best revenue month — indicating even higher sales were expected during Diwali.
-
+- Compares monthly actual revenue against budgeted targets side by side, highlighting how far off the business was from its plan each month.
 ---
 
 ### 📐 Chart 5 — Cumulative Revenue Growth (Area Chart)
 **Type:** Stacked Area Chart
-
-**What it shows:**
-- Running total of net revenue building across 12 months
-- Exponential curve shape showing accelerating growth in Q4
-- Full year total of ₹54,28,419
-
-**Key Insight:**
-> The first 6 months (Jan–Jun) contributed only **44% of annual revenue** while the last 6 months (Jul–Dec) contributed **56%** — driven heavily by festive and winter season demand, confirming strong Q4 seasonality.
+- Visualizes how total revenue compounds across the year, making Q4 festive season acceleration immediately visible.
 
 ---
 
 ### 🔴 Chart 6 — Return Rate by Category (Bar Chart)
 **Type:** Horizontal Bar Chart
-
-**What it shows:**
-- Return rate percentage for each category
-- Sorted from highest to lowest return rate
-- Red color scheme indicating returns as a negative metric
-
-| Category | Return Rate |
-|----------|------------|
-| Bottomwear | 6.55% |
-| Topwear | 5.80% |
-| Summer Collection | 5.17% |
-| Accessories | 4.53% |
-| Footwear | 3.96% |
-| Winter Collection | 2.85% |
-
-**Key Insight:**
-> Bottomwear has the highest return rate at 6.55% — likely driven by sizing issues (the most common return reason in the dataset). Winter Collection has the lowest at 2.85% — suggesting better product-market fit or clearer sizing guidance.
-
+- Ranks categories by return rate percentage, flagging where product quality or sizing issues may be hurting customer satisfaction.
+  
 ---
 
 ### 🎛️ Interactive Slicers
@@ -383,20 +264,6 @@ Fashion_Apparel_Dashboard/
 
 ---
 
-## 🚀 How to Use This Dashboard
-
-1. **Download** `Fashion_Apparel_Dataset.xlsx`
-2. **Open** in Microsoft Excel (2016 or later recommended)
-3. **Navigate** to the `DASHBOARD` tab
-4. **Enable** editing if prompted
-5. **Use Month slicer** on the right to filter by specific months
-6. **Use Category slicer** to drill down into specific product categories
-7. **Click "Clear Filter"** (X icon on slicer) to reset all filters
-
-> ⚠️ Do not edit cells on the DASHBOARD sheet directly — all data flows from Sales_Master via Pivot Tables and formulas.
-
----
-
 ## 📈 Key Metrics Summary
 
 | Metric | Value |
@@ -421,27 +288,14 @@ Fashion_Apparel_Dashboard/
 - ✅ **Advanced Formulas** — SUMIFS, INDEX-MATCH, LARGE, OFFSET, IFERROR
 - ✅ **Statistical Analysis** — Moving averages, running totals, growth rates
 - ✅ **Financial Analysis** — Gross margin, budget variance, profitability
-- ✅ **Data Visualization** — 6 chart types, dark theme dashboard design
+- ✅ **Data Visualization** — 6 chart types
 - ✅ **Business Intelligence** — KPI tracking, slicer interactivity
 - ✅ **Business Storytelling** — Translating data into actionable recommendations
 
 ---
 
-## 👨‍💻 Author
+## Screenshot
 
-**[Your Name]**
-Data Analyst | Excel | SQL | Python | Power BI
+<img width="1442" height="750" alt="Screenshot 2026-05-15 114246" src="https://github.com/user-attachments/assets/575cb330-3e48-4e9b-bbba-070581a88b64" />
 
-📧 [your.email@gmail.com]
-🔗 [LinkedIn Profile URL]
-🐙 [GitHub Profile URL]
 
----
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-*This project was built as part of a data analytics portfolio to demonstrate end-to-end Excel analytics capabilities — from raw data to executive dashboard.*
